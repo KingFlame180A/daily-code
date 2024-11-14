@@ -1,0 +1,36 @@
+gross_items = ["modly sandwich", "stinky sock", "half_eaten banana", "rotten trash cheese", "over year expired milk",]
+
+first_item = gross_items[0]
+last_item = gross_items[-1]
+print("The first item is a", first_item, "and the last item is ", last_item + ".")
+
+show_and_smell_items = gross_items[1:3]
+print("The items coming for 'show and smell' are:", show_and_smell_items)
+items_partners_lunch = gross_items[3:]
+print("The items coming for 'for my partners lunch",items_partners_lunch)
+gross_items[2] = "rotten apple"
+print("Updated gross items:", gross_items)
+
+gross_items.append("one year expired milk")
+gross_items.insert(0, "expired milk")
+print("list after adding items:", gross_items)
+
+gross_items.remove("rotten trash cheese")
+slithering_items = gross_items.pop()
+print("After some items left:", gross_items)
+print("The slithering item was a " + slithering_items)
+gross_items.remove("modly sandwich")
+print("After some items left:", gross_items)
+
+number_of_items = len(gross_items)
+print("We now have", number_of_items, "gross items.")
+
+has_expired_milk = "rotten apple" in gross_items
+print("Do we still have rotten apple")
+if has_expired_milk == True:
+    print("Yes!")
+else:
+    print("no")
+    
+for item in gross_items:
+    print("Behold the incredibly gross", item, "!") 
