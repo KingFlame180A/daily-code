@@ -1,0 +1,71 @@
+#include<iostream>
+using namespace std;
+string inventory[10] = { " "," "," "," "," "," "," "," "," "," " }
+int playerhealth = 100;
+
+int main() {
+	int room = 1;
+	string input = "potato";
+
+
+	while (input != "quit") {//game loop
+
+		cout << endl << "--------------------------------" << endl;
+		cout << "you're inventory:";
+		for (int i = 0; i < 10; i++)
+			cout << inventory[i] << " | ";
+		cout << endl;
+
+		switch (room) {
+		case 1:
+			cout << "you're in room 1, you can go east" << endl;
+			cout << "you found boar meat!" << endl;
+			inventory[0] = "boar meat";
+			cout << "theres a dusty rug on the floor." << endl;
+			cin >> input;
+			if (input == "east" || input == "go east")
+				room = 2;
+			if (input == "rug" || input == "look" || input == "look under rug") {
+				if(inventory[2] != "key")
+				cout << "you find a shiny key!" << endl;
+				inventory[2] = "key";
+			}
+
+			break;
+		case 2:
+			cout << "you're in room 2, you can go west or north" << endl;
+			if (inventory[1] != "mace")
+				cout << "you see a mace on the gorund." << endl;
+
+			cin >> input;
+			if (input == "west" || input == "go westh")
+				room = 1;
+			if (input == "north" || input == "go north")
+				if (inventory[2] == "key") {
+					cout << "you unlocked the door with key" << endl;
+					inventory[2] = "";
+					room = 3;
+				}
+			else { 
+				cout << "the door is locked" << endl;
+					if (input == "mace" || input == "pick up mace" || input == "get mace") {
+						inventory[1] = "mace";
+						cout << "you pick up the mace." << endl;
+					}
+			break;
+		case 3:
+			cout << "you're in room 3, THERES A DRAGON!!!" << endl;
+			if (inventory[1] == "mace") {
+				cout << "you can slay the dragon with your sword and escape the castle" << endl;
+				input = "quit";
+				//return 0; //kills the program
+			}
+			else {
+				cout << "you died." << endl;
+					input = "quit";
+			}
+			break; 
+		}
+	}// end loop
+	cout << "thanks for playing..." << endl;
+}//end main
