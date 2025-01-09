@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Webpage</title>
+</head>
+<body>
+    <!-- Heading -->
+    <h1>Welcome to My Webpage</h1>
+	
+    <!-- Paragraph -->
+    <p>This is a paragraph to introduce the webpage. You can write about anything you like here.</p>
+	
+    <!-- Sub-heading -->
+    <h2>About Me</h2>
+
+    <!-- Unordered List -->
+    <ul>
+ 	<li>Hobby 1</li>
+	<li>Hobby 2</li>
+	<li>Hobby 3</li>
+    </ul>
+
+    <!-- Image -->
+    <img src="trex.jpg" alt="Description of Image">
+
+    <!-- Hyperlink -->
+    <p>Visit <a href="https://example.com">Example Website</a> for more information</p>
+
+</body>
+</html>
