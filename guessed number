@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Guessing Game</title>
+
+<!##########################################################################>
+    <!-- CSS: Styles for the webpage -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+
+<!##########################################################################>
+    <!-- HTML: Structure and content of the webpage -->
+
+    <h2>Guess the Number Game</h2>
+    <p>I'm thinking of a number between 1 and 100. Can you guess it?</p>
+
+    <!-- Input field for the guess -->
+    <input type="number" id="guess" min="1" max="100">
+    <button onclick="checkGuess()">Guess</button>
+
+    <!-- Paragraph where the result will be displayed -->
+    <p id="result"></p>
+
+<!##########################################################################>
+    <!-- JavaScript: Script for the game's functionality -->
+
+    <script>
+        // Generate a random number between 1 and 50
+        var secretNumber = Math.floor(Math.random() * 100) + 1;
+	console.log(secretNumber) //for debugging purposes. press ctrl+shift+j to see this!
+
+        function checkGuess() {
+            // Retrieve the user's guess
+            var userGuess = document.getElementById('guess').value;
+
+            // Compare the guess to the secret number
+            if (userGuess == secretNumber) {
+                document.getElementById('result').innerText = 'Congratulations! You guessed it!';
+            } else if (userGuess < secretNumber) {
+                document.getElementById('result').innerText = 'Too low. Try again!';
+            } else if (userGuess < secretNumber) {
+                document.getElementById('result').innerText = 'You're pretty close';
+            }
+            }else {
+                document.getElementById('result').innerText = 'Too high. Try again!';
+            }
+        }
+    </script>
+
+</body>
+</html>
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Changing Colors</title>
+
+    <!#################################################################################>
+    <!-- CSS: Styling of the webpage -->
+    <style>
+        .color-text {
+            font-size: 24px; /* Sets the font size */
+            text-align: center; /* Aligns text to the center */
+            margin-top: 20px; /* Adds space on the top */
+        }
+    </style>
+</head>
+<body>
+
+    <!#################################################################################>
+    <!-- HTML: Structure of the webpage -->
+
+    <!-- Button element - when clicked, it will run the JavaScript function 'changeColors' -->
+    <button onclick="changeColors()">Click Me to Change Colors</button>
+
+    <!-- Div element where the text color will change -->
+    <div id="text1" class="color-text">Watch the colors change!</div>
+
+    <!#################################################################################>
+    <!-- JavaScript: Script to make the webpage interactive -->
+
+    <script>
+        function changeColors() {
+            // Array of colors for the text and background
+            var colors = ['red', 'blue', 'gold', 'green'];
+
+            // Getting the text element by its ID
+            var element = document.getElementById('text1');
+
+            // Picking a random color from the array for the text
+
+            var randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+            element.style.color = randomColor; // Changing the text color
+
+            var backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.body.style.backgroundColor = backgroundColor; //change background color
+        }
+    </script>
+
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini Adventure Game</title>
+    <style>
+        #gameImage {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HTML: Game content -->
+
+    <h2 id="roomTitle">Room Title</h2>
+    <img id="gameImage" src="" alt="Room Image">
+    <p id="roomDescription">Room Description</p>
+
+    <!-- User input -->
+    <input type="text" id="userInput" placeholder="Type your command">
+    <button onclick="processCommand()">Go</button>
+
+    <!-- JavaScript: Game logic -->
+
+    <script>
+        // Game rooms
+        var rooms = {
+            'start': {
+                'title': 'The Mysterious Dungeon',
+                'description': 'You are in a dark, cold dungeon. There are doors to the north and east.',
+                'image': 'start-room.jpg',
+                'directions': {
+                    'north': 'library',
+                    'east': 'laboratory'
+                }
+            },
+            'library': {
+                'title': 'The Ancient Library',
+                'description': 'You find yourself surrounded by dusty books. There's a door to the south.',
+                'image': 'library.jpg',
+                'directions': {
+                    'south': 'start'
+                }
+            },
+            'laboratory': {
+                'title': 'The Alchemist\'s Laboratory',
+                'description': 'Strange potions bubble on the stove. There's a door to the west.',
+                'image': 'laboratory.jpg',
+                'directions': {
+                    'west': 'start'
+                }
+            },
+            'living room': {
+                'title': 'The living room',
+                'description': 'A dusty place and too many spider webs on the chandelier. There's a door to the south and west.',
+                'image': 'living room.jpg',
+                'directions': {
+                    'south': 'kitchen'
+		    'west': 'empty room'
+                }
+            },
+            'empty room': {
+                'title': 'The empty room',
+                'description': 'Strange potions bubble on the stove. There's a door to the north.',
+                'image': 'empty room.jpg',
+                'directions': {
+                    'north': 'kitchen'
+	    },
+            'kitchen': {
+                'title': 'The kitchen',
+                'description': 'Strange potions bubble on the stove. There\'s a door to the north.',
+                'image': 'kitchen.jpg',
+                'directions': {
+                    'north': 'start'
+                }
+        };
+
+        var currentRoom = 'start'; // Starting room
+        updateRoom();
+
+        function processCommand() {
+            var command = document.getElementById('userInput').value.toLowerCase();
+            var directions = rooms[currentRoom].directions;
+
+            if (directions[command]) {
+                currentRoom = directions[command];
+                updateRoom();
+            } else {
+                alert('You cannot go that way.');
+            }
+
+            document.getElementById('userInput').value = ''; // Clear input field
+        }
+
+        function updateRoom() {
+            var room = rooms[currentRoom];
+            document.getElementById('roomTitle').innerText = room.title;
+            document.getElementById('roomDescription').innerText = room.description;
+            document.getElementById('gameImage').src = room.image;
+        }
+    </script>
+
+</body>
+</html>
