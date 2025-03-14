@@ -1,0 +1,115 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+using namespace std;
+
+//declare
+void display(string guessedword);
+void displayHangman();
+string processguess(char guess, string word, string guessedword);
+
+const int MAX_INCORRECT = 6;
+char incorrect[MAX_INCORRECT];
+int numincorrect = 0;
+int misses = 0;
+
+int main() {
+	string wordList[] = { "computer", "science", "programming", "hangman", "game" };
+	srand(time(0)); 
+	string word = wordList[rand() % 5];
+	string guessedword(word.length(), '_');
+
+	while (misses < MAX_INCORRECT && guessedword != word) {
+		display(guessedword);
+		cout << "Enter your guess: ";
+		char guess;
+		cin >> guess;
+
+		string oldguessedword = guessedword;
+		guessedword = processguess(guess, word, guessedword);
+
+		if (guessedword == oldguessedword) {
+			cout << "Oops! that letter isn't in there!\n";
+		}
+		else {
+			cout << "Good guess!\n";
+		}
+
+		if (guessedword == word) {
+			cout << "Congrotulations! you guessed the word: " << word << "\n";
+		}
+		else {
+			cout << "Game Over! The word was: " << word << "\n";
+		}
+
+		return 0;
+	}
+}
+
+void displayHangman() {
+	cout << "\n";
+	switch (misses) {
+	case 0:
+		cout << "  +---+\n";
+		cout << "  |   |\n";
+		cout << "      |\n";
+		cout << "      |\n";
+		cout << "      |\n";
+		cout << "      |\n";
+		cout << "=========\n";
+		break;
+	case 1:
+		cout << "  +---+\n";
+		cout << "  |   |\n";
+		cout << "  O   |\n";
+		cout << "      |\n";
+		cout << "      |\n";
+		cout << "      |\n";
+		cout << "=========\n";
+		break;
+	}
+}
+
+void display(string guessedword) {
+	cout << "\n word: ";
+	for (int i = 0; i < guessedword.length(); i++) {
+		cout << guessedword[i] << ' ';
+	}
+	cout << "\n incorrect guesses: ";
+	for (int i = 0; i < 6; i++) {
+		cout << incorrect[i] << ' ';
+	}
+	cout << "\n Misses left: " << MAX_INCORRECT - misses << "\n";
+	displayHangman();
+}
+
+string processguess(char guess, string word, string guessedword) {
+	bool iscorrect = false;
+	for (int i = 0; i < word.length(); i++) {
+		if (word[i] == guess && guessedword[i] == '_') {
+			guessedword[i] = guess;
+			iscorrect = true;
+		}
+	}
+
+	if (!iscorrect) {
+
+		bool alreadyguessed = false;
+
+		for (int i = 0; i < 6; i++) {
+			if (incorrect[i] == guess) {
+				alreadyguessed = true;
+				break;
+			}
+		}
+
+		if (!alreadyguessed) {
+			incorrect[numincorrect++] = guess;
+			misses;
+		}
+	}
+	return guessedword;
+
+}
