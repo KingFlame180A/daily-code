@@ -3,6 +3,113 @@ import random
 import time
 
 pygame.init()
+screen = pygame.display.set_mode((1800,1000))
+pygame.display.set_caption("Fish Simulator")
+clock = pygame.time.Clock()
+spongebobhouse = pygame.image.load("spongebobhouse.png")
+patrickhouse = pygame.image.load("patirckhouse.png")
+squidwardhouse = pygame.image.load("squidwardhouse.png")
+pygame.mixer.music.load('drum_roll_y.wav') 
+sound_effect = pygame.mixer.Sound('drum_roll2.wav')
+pygame.mixer.music.play(-1)
+
+spongebobhouse = pygame.transform.scale(spongebobhouse, (200,200))
+patrickhouse = pygame.transform.scale(patrickhouse, (200,200))
+squidwardhouse = pygame.transform.scale(squidwardhouse, (200,200))
+
+class Fish:
+    def __init__(self):
+        self.fishImage = pygame.image.load("fish.png").convert_alpha()
+        pygame.Surface.set_colorkey (self.fishImage, [200,0,255])
+        self.xpos = random.randint(0, 750)
+        self.ypos = random.randint(0, 550)
+        self.speed = 1
+        self.xDir = random.randint(-1,1)
+        self.yDir = random.randint(-1,1)
+        self.last_change_time = time.time() #grab starting time
+
+    def move(self):
+        # Move the fish
+        self.xpos += self.xDir* self.speed
+        self.ypos += self.yDir * self.speed
+
+        # Change direction every 3 seconds
+        if time.time() - self.last_change_time > 3:  
+            self.xDir = random.randint(-1,1)
+            self.yDir = random.randint(-1,1)
+            self.last_change_time = time.time() #reset the time
+
+        # Check for collision with walls and change direction
+        if self.xpos <= 0 or self.xpos >= 750:
+            self.xDir *= -1
+        if self.ypos <= 0 or self.ypos>= 550:
+            self.yDir *= -1
+
+    def draw(self, screen):
+        screen.blit(self.fishImage, (self.xpos, self.ypos))
+
+class Snowflake:
+    def __init__(self, x, y):
+        self.xpos = x
+        self.ypos = y
+    def move(self):
+        self.xpos += random.randrange(-2, 3) #makes the snowflake move a random amount left or right
+        self.ypos -= random.randrange(0, 3) #makes the snowflake move a random amount up or down
+        if self.ypos <0:
+            self.ypos = random.randrange(500, 1000)
+    def draw(self):
+        pygame.draw.circle(screen, (200, 200, 255), (self.xpos, self.ypos), 5,3) #draw flakes
+        
+# instantiate a fish object
+fish = Fish()
+
+flakeBag = []
+for i in range(500):
+    flakeBag.append(Snowflake(random.randrange(0, 1800), random.randrange(0, 500)))
+
+running = True
+while running:# Game loop########################################################
+    clock.tick(60)
+    #input/event section-----------------------------
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+while 1:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            sound_effect.play()
+
+    #physics/update section--------------------------
+    fish.move()
+    
+    for i in range(len(flakeBag)):
+        flakeBag[i].move()
+    #render section----------------------------------
+   
+    # Fill the screen with a background color
+    screen.fill((0, 0, 139))
+
+    # Draw the fish
+    fish.draw(screen)
+    
+    for i in range(len(flakeBag)):
+        flakeBag[i].draw()
+    # Update the display
+    screen.blit(spongebobhouse, (1000, 100))
+    screen.blit(patrickhouse, (600, 100))
+    screen.blit(squidwardhouse, (800, 100))
+    pygame.display.flip()
+
+    #end of game loop!#######################################################
+
+pygame.quit()
+import pygame
+import random
+import time
+
+pygame.init()
 screen = pygame.display.set_mode((800,600))
 pygame.display.set_caption("Fish Simulator")
 clock = pygame.time.Clock()
