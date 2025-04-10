@@ -1,0 +1,50 @@
+#include<iostream>
+using namespace std;
+
+char board[3][3] = { {'-', '-', '-'}, {'-', '-', '-'}, {'-', '-', '-'} };
+char player = 'X';
+bool endgame = false;
+
+void printboard(const char board[3][3]);
+void playerturn(char board[3][3], char player);
+
+int main() {
+
+	cout << "Welcome to Tic-Tac_toe!" << endl;
+
+	while (endgame == false) { //game loop
+		printboard(board);
+		cout << "Player" << player << "'s turn!" << endl << endl;
+
+		if (player == 'X')
+			player = 'Y';
+	}
+}
+
+void printboard(const char board[3][3]) {
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			cout << board[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+void playerturn(char board[3][3], char player) {
+
+	char row, col;
+
+	if (player == 'X')
+		cout << "Player X, type row and colum to place X:" << endl;
+	else
+		cout << "Player Y, type row and colum to place O:" << endl;
+
+	row = 1;
+	col = 1;
+
+	if (player == 'X')
+		board[row - 1][col - 1] = 'X';
+	else 
+
+	cout << endl;
+}
