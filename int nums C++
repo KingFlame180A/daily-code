@@ -1,0 +1,19 @@
+#include <iostream> 
+using namespace std; 
+
+int main() {
+
+    int num; 
+    cout << "How many of sleep did you get?: ";
+    cin >> num;
+
+    if (num > 20)
+        cout << "Buy yourself some coffee\n"; 
+    else if (num > 15)
+        cout << "I'll join you for some coffee\n";
+    else if (num < 10)
+        cout << "I'll buy some coffee\n";
+    else
+        cout << "Get some sleep\n";
+
+}
