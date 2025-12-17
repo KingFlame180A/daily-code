@@ -1,0 +1,18 @@
+import pygame
+pygame.init
+
+screen = pygame.display.set_mode((800, 1000))
+pygame.display.set_caption("A lovely gnome!")
+
+pygame.draw.rect(screen, (255, 0, 0), (300, 400, 200, 300))
+pygame.draw.rect(screen, (196, 164, 132), (500, 400, 50, 50))#nose
+pygame.draw.rect(screen, (0, 0, 255), (385, 470, 50, 100))#Arms
+pygame.draw.rect(screen, (0, 255, 0), (300, 700, 50, 100))
+pygame.draw.rect(screen, (0, 255, 0), (450, 700, 50, 100))
+pygame.draw.rect(screen, (165, 42, 42), (300, 800, 100, 50))
+pygame.draw.rect(screen, (165, 42, 42), (450, 800, 100, 50))
+pygame.draw.circle(screen, (196, 164, 132), (410, 585), 30)
+pygame.draw.circle(screen, (200, 255, 0), (100, 100), 50)
+pygame.draw.polygon(screen, (0, 0, 200), ((300, 400), (500, 400), (400, 100)))
+
+pygame.display.flip()
