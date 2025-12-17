@@ -1,0 +1,2 @@
+from pyfiglet import figlet_format
+print(figlet_format("Im gonna be (500 miles)", font="chunky", width=140, justify="right"))
