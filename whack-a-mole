@@ -1,0 +1,76 @@
+import pygame
+import random
+pygame.init()
+screen = pygame.display.set_mode((900,800))
+pygame.display.set_caption("Whack-A-mole!")
+clock = pygame.time.Clock()
+
+hit = pygame.mixer.sound("hit.mp3")
+miss = pygame.mixer.sound("miss.mp3")
+pygame.mixer.music.load("music.mp3")
+pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.play(-1)
+
+circx = random.randrange(20, 250)
+circy = random.randrange(20, 250)
+ticker = 0
+score = 0
+outline = False
+
+RED = random.randrange(20, 250)
+GREEN = random.randrange(20, 250)
+BLUE = random.randrange(20, 250)
+drawn = True
+font = pygame.font.SysFont(None, 48)
+
+running = True
+while running: #gameloop##################################################################
+
+    #Update section############################
+    clock.tick(60)
+    ticker += 1
+    #print(ticker)
+    if drawn and ticker > 50:
+         drawn = False
+         outline = False
+         ticker = 0    
+         circx = random.randrange(100, 700)
+         circy = random.randrange(100, 700)
+         RED = random.randrange(20, 250)
+         GREEN = random.randrange(20, 250)
+         BLUE = random.randrange(20, 250)
+        
+    elif drawn == False and ticker > 10:
+         drawn = True       
+         ticker = 0
+     
+    #input section------------------------------------------------------------------------
+    clock.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    if event.type == pygame.MOUSEBUTTONDOWN and drawn:
+        mx, my = pygame.mouse.get_pos()
+        if(mx-circx)**2 + (my-circy)**2 <= 50 ** 2:
+            if outline == False:
+               score += 1 
+               print(score)
+               hit.play()
+            ticker = 0
+            outline = True
+        else:
+            miss.play()
+    #Render section-------------------------------------------------------------------------
+    screen.fill((20, 20, 20))
+    
+    if drawn:
+        pygame.draw.circle(screen, (RED, GREEN, BLUE), (circx, circy), 50)
+    if outline:
+        pygame.draw.circle(screen, (255, 255,255), (circx, circy), 50, 3)
+        
+    score_text = font.render("Score: " + str(score), True, (255,255,255))
+    screen.blit(score_text, (20, 20))
+    pygame.display.flip()
+
+pygame.quit()
