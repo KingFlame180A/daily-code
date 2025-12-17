@@ -1,0 +1,445 @@
+import random
+
+room = 1 #starting point
+health = 100
+money = 0
+inventory = ["cooked corn cob"]
+print("test")
+
+RED = '\033[91m'
+GREEN = '\033[32m'
+END = '\033[33m'
+YELLOW_BG = '\033[43m'
+END = '\033[0m'
+BLUE = '\033[44m\033[23'
+
+def shop():
+    doExit = False
+    global money
+    print(YELLOW_BG + "--------------Welcome to the shop------------------" + END)
+    while doExit == False:
+        print("your inventory", inventory)
+        choice = input("Press 1 to buy, 2 to sell, 3 to quit.")
+        #Player buying stuff
+        if choice == "1":
+            choice = input("We sell grapes($5), chained mace($30), cooked chicken($25)")
+            if choice == "grapes":
+                if money>=5:
+                    money-=5
+                    inventory.append("grapes")
+                    print("ok here is your grapes")
+                else:
+                    print("sorry, you dont have enough coins")
+            if choice == "shield":
+                if money>=30:
+                    money-=30
+                    iventory.append("chained mace")
+                    print("ok here is your chained mace")
+                else:
+                    print("sorry, you dont have enough coins")
+            if choice == "cooked chicken":
+                if money>=25:
+                    money-=25
+                    iventory.append("grapes")
+                    print("ok here is your cooked chicken")
+                else:
+                    print("sorry, you dont have enough coins")
+        
+        #selling stuff
+        elif choice == "2":
+            choice = input("What do you like to sell stranger?")
+            if choice in inventory:
+                inventory.remove(choice)
+                if choice == "cooked corn cob":
+                    money += 9
+                elif choice == "warhammer":
+                    money += 50
+                else:
+                    print("Sorry cant take that")
+            
+        #quits    
+        elif choice == "3":
+            doExit = True
+        else:
+            print("sorry not an option")
+    print("Thank you for visiting the shop")
+    print("---------------------------------------------------")
+    print()
+
+def Monstergen():
+    num = random.randrange(0, 100)
+    if num < 33:
+        print("A troll showed up")
+        return 33
+    elif num < 66:
+        print("A golem showed up")
+        return 55
+    else:
+        print("A tall orc showed up")
+        return 45
+        
+print(Monstergen())
+
+def battlesystem():
+    doExit = False
+    monster = Monstergen()
+    print(RED + "-----------Battle system----------" + END)
+    global health
+    global money
+    while Monsterhealth > 0 and health > 0 and doExit == False:
+        choice = input("press 1 to fight, 2 to use inventory, 3 to escape")
+        
+        print(REEN + "You've come up onto a troll and hit the troll with your weapon!" + END)
+        print("your health", health, ", monsters health", Monsterhealth)
+        if "warhammer" in inventory:
+            print("You swung your warhammer at the troll")
+            damage = random.randrange(10, 20)
+            print("You do ", damage, "damage,")
+            Monsterhealth -= damage
+            
+        if choice == "2":
+            print("Your inventory:", inventory)
+            choice = input("Item you like to use:")
+            if choice == "steak" or choice == "armored gloves":
+                health += 30
+                print("you eat the steak and your health goes up by 30")
+            else:
+                print("Sorry you dont have that item")
+                
+        if choice == "3":
+            num = random.randrange(0, 100)
+            if num < 50:
+                print("You escaped")
+            else:
+                print("You can't escape")
+                
+        health -= random.randrange(0, monster)
+        print("You take ", monsterdamage, "Damage from the monster")
+    print("The battle has ended!")
+    print("----------------------------------")
+    
+    if Monsterhealth <= 0 :
+        money += monster
+        print("The monster drops", monster, "coins")
+
+def treasurechest(chesttype = "standard"):
+    global money
+    num = random.randrange(0 , 100)
+
+    if num < 20:
+        print(YELLOW_BG + "You get a shiny silver helmet in the chest" + END)
+        inventory.append("silver helmet")
+    elif num < 50:
+        print(YELLOW_BG + "You get a viking shield in the chest" + END)
+        inventory.append("viking shield")
+    elif num < 70:
+        print(YELLOW_BG + "You get a Dwarf hammer" + END)
+        inventory.append("dwarf hammer")
+    elif num < 90:
+        print("A hand reached out the side of the chest and steals an item from your bag!!")
+        if len(inventory) != 0:
+         print("It steals a...."), inventory.pop()
+        else:
+            print("your bag was empty so it doesn't steal anything...")
+    else:
+        print("The chest is empty")
+        
+    if chesttype == "gold bars":
+        if num < 10:
+            print("You got ten gold")
+        money += 20
+    elif num < 20:
+        print("You get fifty gold bars")
+        money += 50
+    elif num < 30:
+        print("You get a golden cup")
+        inventory.append("Golden cup")
+    else:
+        print("you got ten gold bars!")
+        money += 10
+    
+def npc(persontype = "farmer"):
+    num = random.randrange(0, 100)
+    
+    if persontype == "farmer":
+        print(YELLOW_BG + "You encounter a person laying down on some hay surrounded by stoned trolls having an axe laying aside him..." + END)
+        if num < 20:
+            print("I used to be an farmer taking care of my animals before the trolls attacked")
+        elif num < 50:
+            print("Im just taking a break")
+        elif num < 70:
+            print("The names lumir, the farmer")
+        else:
+            print("Here's some armored gloves")
+            inventory.append("Armored gloves")
+    
+    if persontype == "dwarf": 
+        print(GREEN + "You encounter a short person looking on a map mumbling walking left and right..." + END)
+        if num < 20:
+            print("Im a dwarf trying to find the nearest village")
+        elif num < 50:
+            print("Im just figuring out the map")
+        elif num < 70:
+            print("The names khan, the skull crusher")
+        else:
+            print("Here's some steak")
+            inventory.append("steak")
+        
+print(GREEN + "Welcome to your journey!, you've open you're eyes looking up at the cloudy skys as you gotten up walking down your staircase looking over the trees" + END)
+print("press i to view inventory")
+
+while health > 0: #Game loop------------------------------------------------------------------------------------------------------------------------
+    
+    if room == 1:
+        print("You're outside of your house there's a warhammer on the side of the stairway, pick the weapon up, you can go only west") 
+        direction = input()
+
+        if direction == "west":
+            room = 2
+        elif direction == "i":
+            print("your inventory:", inventory)
+        elif direction == "warhammer" and "warhammer" not in inventory:
+            print("you pick up the warhammer and added to your inventory")
+            inventory.append("warhammer")
+        else:
+            print("Not an option")
+           
+        #room 2------------------------------------------------------------------------------------------------------------------------------------
+    if room == 2:      
+        print("You're at an oak trees seeing a trail of broken sticks and mud, you can go west south or north") 
+        direction = input()
+        
+        if direction == "north":
+            room = 4
+        elif direction == "west":
+            room = 1
+        elif direction == "south":
+            room = 3
+        else:
+            print("Not an option")
+
+        #room 3------------------------------------------------------------------------------------------------------------------------------------
+    if room == 3:      
+        print("You're pine trees there are broken pinecones as you could see a trail of broken pinecones, you can go north or west")
+        direction = input()
+        
+        if direction == "north":
+                room = 1
+        elif direction == "south":
+                room = 5
+        elif direction == "i":
+                print("your inventory:", inventory)
+        else:
+            print("Not an option")
+
+        #room 4-----------------------------------------------------------------------------------------------------------------------------------
+    if room == 4:      
+        print("You're at a broken wooden cart, but you looked over the cart seeing a barn, you can go north or south")
+        direction = input()
+
+        if direction == "south":
+             room = 2
+        if direction == "north":
+            room = 6
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+    
+        #room 5---------------------------------------------------------------------------------------------------------------------------------
+    if room == 5:      
+        print("You're in the barn hearing cows mooing and some eating hay, you can either go south or west")
+        npc("dwarf")
+        direction = input()
+
+        if direction == "north":
+            room = 3
+        elif direction == "west":
+            room == 8
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+    
+        #room 6-------------------------------------------------------------------------------------------------------------------------------
+    if room == 6:      
+        print("You're outside of the barn with the farmer aside you holding his axe, you can go south or west")
+        npc("farmer")
+        direction = input()
+
+        if direction == "south":
+            room = 4
+        elif direction == "west":
+            room = 7
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+    
+        #room 7------------------------------------------------------------------------------------------------------------------------------
+    if room == 7:      
+        print("You're at a burned down house and would see a chest that was half burnt at its top was missing as you would look inside, you can go east or west")
+        treasurechest()
+        print("your money:", money)
+        direction = input()
+
+        if direction == "east":
+            room = 6
+        elif direction == "west":
+            room = 10
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+    
+        #room 8-----------------------------------------------------------------------------------------------------------------------------
+    if room == 8:      
+        print("You're at a wooden house seeing it had a name and still being built, the house name is S&M , you can go south to walk by the house or east")
+        direction = input()
+
+        if direction == "west":
+            room = 9
+        elif direction == "east":
+            room = 5
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+    
+        #room 9----------------------------------------------------------------------------------------------------------------------------
+    if room == 9:      
+        print(RED + "You walked over at the wooden house continuing your walk, you can go north or east" + END)
+        battlesystem()
+        direction = input()
+
+        if direction == "west":
+            room = 12
+        elif direction == "east":
+            room = 8
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+    
+        #room 10---------------------------------------------------------------------------------------------------------------------------
+    if room == 10:      
+        print(RED + "You're at the rocky way seeing there were some of mud trails, you can go west or east" + END)
+        battlesystem()
+        direction = input()
+
+        if direction == "west":
+            room = 11
+        elif direction == "east":
+            room = 7
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+             
+        #room 11--------------------------------------------------------------------------------------------------------------------------
+    if room == 11:      
+        print("You've walked over the burned house with the dwarf aside you putting his map away in his shirt, you can go west or east")
+        direction = input()
+
+        if direction == "west":
+            room = 14
+        elif direction == "east":
+            room = 10
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+            
+        #room 12--------------------------------------------------------------------------------------------------------------------------
+    if room == 12:      
+        print("You've walked to an yellow merant tree seeing it giant than you as you looked over seeing something, you can go west or east")
+        direction = input()
+
+        if direction == "west":
+            room = 13
+        elif direction == "east":
+            room = 9
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+    
+        #room 13-------------------------------------------------------------------------------------------------------------------------
+    if room == 13:      
+        print("You've walked to an Mountain Ash tree seeing its fruits barley growing but you looked aside of it showing a shop covered in leafs and the trail, you can go north or east")
+        direction = input()
+
+        if direction == "north":
+            room = 16
+        elif direction == "east":
+            room = 12
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+                       
+        #room 14------------------------------------------------------------------------------------------------------------------------
+    if room == 14:      
+        print("You've walked to an misty area looking at the ground trying to look of where you are going but you see a lamp and a sign that it is a shop, you can go south or east")
+        shop()
+        direction = input()
+
+        if direction == "south":
+            room = 15
+        elif direction == "east":
+            room = 11
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+            
+        #room 15------------------------------------------------------------------------------------------------------------------------
+    if room == 15:      
+        print(RED + "You've walked by the misty area and walk into a trail of mud, you can go south or north" + END)
+        battlesystem()
+        direction = input()
+
+        if direction == "north":
+            room = 14
+        elif direction == "south":
+            room = 17
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+            
+        #room 16------------------------------------------------------------------------------------------------------------------------
+    if room == 16:      
+        print(RED + "You've walked into a goblin territory seeing their houses destroyed by a creature, you can go north or south" + END)
+        battlesystem()
+        direction = input()
+
+        if direction == "south":
+            room = 13
+        elif direction == "north":
+            room = 17
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+            
+        #room 17-----------------------------------------------------------------------------------------------------------------------
+    if room == 17:      
+        print("You've passed the area you have been and made it to the hill, you can go north, south or east")
+        direction = input()
+
+        if direction == "north":
+            room = 15
+        elif direction == "south":
+            room = 16
+        elif direction == "east":
+            room = 18
+        elif direction == "i":
+            print("your inventory:", inventory)
+        else:
+            print("Not an option")
+            
+        #room 18-----------------------------------------------------------------------------------------------------------------------
+    if room == 18:      
+        print(GREEN + "You've walked up to an hill and see a village, you'll have to continue your journey soon" + END)
+        direction = input()
