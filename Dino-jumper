@@ -1,0 +1,89 @@
+import pygame
+import random
+
+print("Hello World!")
+pygame.init()
+screen = pygame.display.set_mode((940,500))
+pygame.display.set_caption("Dino Jumper")
+cactusimg = pygame.image.load('cactus.png')
+
+doExit=False
+clock = pygame.time.Clock()
+p1x = 20
+p1y = 450
+yVel = 0
+blue=(0,0,255)
+p1Width = 30
+p1Height = 30
+
+cactusheights = [80,40,100,80,30]
+
+cactusxpos = []
+
+for x in range(1, 5):
+    
+    cactusxpos.append(random.randrange(200, 3000))
+    
+touchGround = False
+#Game loop#################################################################################################
+while not doExit:
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            doExit = True;
+            
+    if (p1y+30) < 480:
+        p1y+=1
+        
+    if (p1y+30) == 480:
+        touchGround = True
+    else:
+        touchGround = False
+    #timer section#################################################################################################
+    clock.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            doExit = True;
+            
+    for x in range(len(cactusxpos)):
+        if cactusxpos[x]<0:
+            cactusxpos[x]=random.randrange(640, 5000)
+            print("reset to ", cactusxpos[x])
+            
+    for x, y in zip(cactusxpos, cactusheights):
+        a = pygame.Rect((x, 480-y), (30, 80))
+        b = pygame.Rect((p1x, p1y), (30, 30))
+        if a.colliderect(b) == True:
+            print("COLLISION") 
+            doExit=True
+            winsound.Beep(900,900)
+            
+    p1y += yVel
+    
+    if (p1y+30) >= 480:
+        touchGround = True
+    else:
+        touchGround = False
+        
+    if touchGround == False:
+        yVel += 1
+    else:
+        yVel = 0
+    
+    cactusxpos = [x - 5 for x in cactusxpos]
+    #input section#################################################################################################
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_w] and touchGround == True:
+        yVel=-20
+        p1y-=5
+    #render scetion#################################################################################################
+    screen.fill((0,0,0))
+    
+    for x, y in zip(cactusxpos, cactusheights):
+        screen.blit(cactusimg, (x-15,480-y))
+
+    pygame.draw.rect(screen, (0, 255, 0), (p1x, p1y, 30, 30), 1)
+    
+    pygame.display.flip()
+#end game loop#############################################################################################
+pygame.quit()
