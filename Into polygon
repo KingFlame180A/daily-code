@@ -1,0 +1,58 @@
+import requests
+import datetime
+import matplotlib.pyplot as plt
+
+#-------SET UP SECTION---------------------
+API_KEY = "AR05Bzb4V84L2JVYK_yVPdpBjPMrXvSL"
+TICKER = "GOOG"
+START_DATE = "2021-07-01"
+END_DATE = "2024-07-01"
+
+# ========== FUNCTION: Fetch daily stock prices ================
+def fetch_stock_data(ticker, start_date, end_date):
+    url = f"https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/{start_date}/{end_date}"
+   
+    params = {
+        "adjusted": "true",
+        "sort": "asc",
+        "limit": 50000,
+        "apiKey": API_KEY
+    }
+   
+    response = requests.get(url, params=params)
+   
+    data = response.json()
+   
+    if "results" not in data:
+        print("Error:", data.get("error", "Unknown issue"))
+        return[]
+    return data["results"]
+
+#========MAIN CODE============
+
+stock_data = fetch_stock_data(TICKER, START_DATE, END_DATE)
+
+
+for day in stock_data[:5]:
+   
+    date = datetime.datetime.fromtimestamp(day["t"] / 1000).strftime("%Y-%m-%d")
+   
+    print(f"{date} | Open: {day['o']} | High: {day['h']} | Low: {day['l']} | Close: {day['c']}")
+   
+if not stock_data:
+    print("No data returned. Check the API key, ticker, or date range.")
+else:
+   
+    dates = [datetime.datetime.fromtimestamp(day["t"] / 1000) for day in stock_data]
+   
+    close_prices = [day["c"] for day in stock_data]
+
+    plt.figure(figsize=(12,6))
+    plt.plot(dates, close_prices, label=f'{TICKER} Closing price', color = "green")
+    plt.title(f'{TICKER} stock price (since IPO)')
+    plt.xlabel("Date")
+    plt.ylabel("price (USD)")
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
