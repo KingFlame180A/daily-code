@@ -1,0 +1,61 @@
+import turtle
+t = turtle.Turtle()
+t.speed(0)
+turtle.bgcolor("black")
+
+colors = ["purple", "green", "blue", "yellow", "pink", "red"]
+
+for i in range(20):
+    t.color(colors[i % 2])
+    t.forward(200)
+    t.left(92)
+   
+t.penup()
+t.goto(200, 200)
+t.pendown()
+
+for i in range(9):
+    t.color(colors[i % 2+2])
+    t.forward(200)
+    t.left(190)
+   
+t.penup()
+t.goto(300, -100)
+t.pendown()
+
+for i in range(20):
+    t.color(colors[i % 6])
+    t.forward(200)
+    t.left(167)
+
+t.penup()
+t.goto(300, -100)
+t.pendown()
+
+for i in range(20):
+    t.color(colors[i % 4])
+    t.forward(200)
+    t.left(485)
+
+t.penup()
+t.goto(0, 0)
+t.pendown()
+ 
+
+choice = input("how are you feeling")
+while choice != "quit":
+    if choice == "happy":
+        print("im glad your happy")      
+        turtle.bgcolor("yellow")
+    elif choice == "sad":
+        print("im sorry your sad")
+        turtle.bgcolor("blue")
+    elif choice == "ok":
+        print("Glad your ok")
+        turtle.bgcolor("green")
+    elif choice == "bored":
+        print("i can see why your bored")
+        turtle.bgcolor("purple")
+    else:
+        print("sorry, I don't have a color for that emotion.")
+
