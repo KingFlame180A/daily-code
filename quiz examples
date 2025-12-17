@@ -1,0 +1,31 @@
+sleep = int(input("How many hours of sleep did you get last night?"))
+if sleep >= 9:
+    print("You’re lucky, you should buy yourself breakfast")
+elif sleep > 7:
+    print("We should grab breakfast together")
+elif sleep < 5:
+    print("I’ll bring you coffee because you need it")
+elif sleep < 4:
+    print("Take a nap immediately")
+    
+print()
+
+for i in range(50, 10, -4):
+    print(i, end = " ")
+    
+print()
+
+num = 5
+while num <= 40:
+    print(num, end = " ")
+    num+=7
+    
+print ()
+
+ages = [5, 9, 11, 14, 15, 18, 19, 20, 21, 24]
+print(ages)
+ages.sort()
+print(ages)
+#--------------------------------------------
+print(len(ages))
+ages.reverse()
